@@ -9,18 +9,18 @@ datasource db {
 }
 
 model User {
-  id                 String      @id @default(uuid())
-  email              String      @unique
+  id                 String     @id @default(uuid())
+  email              String     @unique
   password           String
-  displayName        String      @map("display_name")
+  displayName        String     @map("display_name")
   picture            String?
-  role               UserRole    @default(REGULAR)
-  isVerified         Boolean     @default(false) @map("is_verified")
-  isTwoFactorEnabled Boolean     @default(false) @map("is_two_factor_enabled")
-  method             AuthMenthod
+  role               UserRole   @default(REGULAR)
+  isVerified         Boolean    @default(false) @map("is_verified")
+  isTwoFactorEnabled Boolean    @default(false) @map("is_two_factor_enabled")
+  method             AuthMethod
   accounts           Account[]
-  createdAt          DateTime    @default(now()) @map("created_at")
-  updatedAt          DateTime    @updatedAt @map("updated_at")
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
 
   @@map("users")
 }
@@ -55,7 +55,7 @@ enum UserRole {
   ADMIN
 }
 
-enum AuthMenthod {
+enum AuthMethod {
   CREDENTIALS
   GOOGLE
   YANDEX

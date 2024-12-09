@@ -3,6 +3,7 @@
 /node_modules
 /build
 
+/non-bll-scripts
 # Logs
 logs
 *.log

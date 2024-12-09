@@ -1,0 +1,29 @@
+export const configuration = () => ({
+	NODE_ENV: process.env.NODE_ENV,
+	APPLICATION_PORT: parseInt(process.env.APPLICATION_PORT, 10),
+	APPLICATION_URL: process.env.APPLICATION_URL,
+	ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN,
+
+	COOKIES_SECRET: process.env.COOKIES_SECRET,
+
+	SESSION_SECRET: process.env.SESSION_SECRET,
+	SESSION_NAME: process.env.SESSION_NAME,
+	SESSION_DOMAIN: process.env.SESSION_DOMAIN,
+	SESSION_MAX_AGE: process.env.SESSION_MAX_AGE,
+	SESSION_HTTP_ONLY: process.env.SESSION_HTTP_ONLY === 'true',
+	SESSION_SECURE: process.env.SESSION_SECURE === 'true',
+	SESSION_FOLDER: process.env.SESSION_FOLDER,
+
+	POSTGRES_USER: process.env.POSTGRES_USER,
+	POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
+	POSTGRES_HOST: process.env.POSTGRES_HOST,
+	POSTGRES_PORT: parseInt(process.env.POSTGRES_PORT, 10),
+	POSTGRES_DB: process.env.POSTGRES_DB,
+	POSTGRES_URI: process.env.POSTGRES_URI,
+
+	REDIS_USER: process.env.REDIS_USER,
+	REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+	REDIS_HOST: process.env.REDIS_HOST,
+	REDIS_PORT: parseInt(process.env.REDIS_PORT, 10),
+	REDIS_URI: process.env.REDIS_URI
+})

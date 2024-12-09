@@ -3,6 +3,7 @@
 /node_modules
 /build
 
+/non-bll-scripts
 # Logs
 logs
 *.log
@@ -36,9 +37,8 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
-.env
-.env.development
-.env.production
+**/*.env
+!src/config/env/development.env
 
 # temp directory
 .temp

@@ -1,14 +1,11 @@
-version: '3.8'
-
 services:
   db:
     container_name: postgres
     image: postgres:15.2
     restart: always
     env_file:
-      - src/config/env/development.env
+      - ./development.env
     environment:
-      - DEBUG=true
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
@@ -27,10 +24,9 @@ services:
     ports:
       - "6379:6379"
     env_file:
-      - src/config/env/development.env
+      - ./development.env
     environment:
-      - DEBUG=true
-      - REDIS_PASSWORD=${REDIS_PASSWORD}  # Добавлено для использования переменной окружения
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: redis-server --requirepass "${REDIS_PASSWORD}" --loglevel debug
     volumes:
       - redis_data:/data

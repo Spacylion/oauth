@@ -13,7 +13,7 @@ import { UserModule } from './user/user.module'
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			envFilePath: `${process.cwd()}/src/config/env/.env.${process.env.NODE_ENV}`,
+			envFilePath: `${process.cwd()}/${process.env.NODE_ENV}.env`,
 			load: [configuration],
 			validationSchema
 		}),

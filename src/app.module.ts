@@ -25,4 +25,10 @@ import { UserModule } from './user/user.module'
 	controllers: [],
 	providers: []
 })
-export class AppModule {}
+export class AppModule {
+	constructor() {
+		if (process.env.NODE_ENV === 'development') {
+			console.log('Running in development mode. Skipping certain checks.');
+		}
+	}
+}

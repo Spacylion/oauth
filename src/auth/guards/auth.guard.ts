@@ -3,27 +3,28 @@ import {
 	ExecutionContext,
 	Injectable,
 	UnauthorizedException
-} from '@nestjs/common'
-
-import { UserService } from '@/user/user.service'
+} from '@nestjs/common';
+import { UserService } from '@/user/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	public constructor(private readonly userService: UserService) {}
+	constructor(private readonly userService: UserService) { }
 
-	public async canActivate(context: ExecutionContext): Promise<boolean> {
-		const request = context.switchToHttp().getRequest()
+	async canActivate(context: ExecutionContext): Promise<boolean> {
+		const request = context.switchToHttp().getRequest();
+		const userId = request.session?.userId; 
 
-		if (typeof request.session.userId === 'undefined') {
-			throw new UnauthorizedException(
-				'Пользователь не авторизован. Пожалуйста, войдите в систему, чтобы получить доступ.'
-			)
+		if (!userId) {
+			throw new UnauthorizedException('User not authorized. Please login to proceed.');
 		}
 
-		const user = await this.userService.findById(request.session.userId)
+		const user = await this.userService.findById(userId);
 
-		request.user = user
+		if (!user) {
+			throw new UnauthorizedException('User not found.');
+		}
 
-		return true
+		request.user = user;
+		return true;
 	}
 }

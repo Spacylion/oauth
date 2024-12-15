@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module'
 import { LoggerModule } from './logger/logger.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module'
+import { ProviderModule } from './auth/provider/provider.module';
 
 @Module({
 	imports: [
@@ -20,7 +21,8 @@ import { UserModule } from './user/user.module'
 		LoggerModule,
 		PrismaModule,
 		AuthModule,
-		UserModule
+		UserModule,
+		ProviderModule
 	],
 	controllers: [],
 	providers: []

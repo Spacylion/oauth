@@ -1,106 +1,118 @@
-import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
-import { BaseProviderOptionsType } from "./lib/types/base-provider.options.types";
-import { UserInfoType } from "./lib/types/user-info.types";
+import {
+	BadRequestException,
+	Injectable,
+	UnauthorizedException
+} from '@nestjs/common'
+import { BaseProviderOptionsType } from '../lib/types/base-provider.options.types'
+import { UserInfoType } from '../lib/types/user-info.types'
+
 
 @Injectable()
 export class BaseOAuthService {
-    private BASE_URL: string;
+	private BASE_URL: string
 
-    constructor(private readonly options: BaseProviderOptionsType) {}
+	public constructor(private readonly options: BaseProviderOptionsType) {}
 
-    protected async extractUserInfo(data: any): Promise<UserInfoType> {
-        return {
-            ...data,
-            provider: this.options.name,
-        };
-    }
+	protected async extractUserInfo(data: any): Promise<UserInfoType> {
+		return {
+			...data,
+			provider: this.options.name
+		}
+	}
 
-    getAuthUrl(): string {
-        const query = new URLSearchParams({
-            response_type: 'code',
-            client_id: this.options.client_id,
-            redirect_uri: this.getRedirectUrl(),
-            scope: (this.options.scopes ?? []).join(' '),
-            access_type: 'offline',
-            prompt: 'select_account',
-        });
+	public getAuthUrl() {
+		const query = new URLSearchParams({
+			response_type: 'code',
+			client_id: this.options.client_id,
+			redirect_uri: this.getRedirectUrl(),
+			scope: (this.options.scopes ?? []).join(' '),
+			access_type: 'offline',
+			prompt: 'select_account'
+		})
 
-        return `${this.options.authorize_url}?${query.toString()}`;
-    }
+		return `${this.options.authorize_url}?${query}`
+	}
 
-    async findUserByCode(code: string): Promise<UserInfoType> {
-        const { client_id, client_secret } = this.options;
+	public async findUserByCode(code: string): Promise<UserInfoType> {
+		const client_id = this.options.client_id
+		const client_secret = this.options.client_secret
 
-        const tokenQuery = new URLSearchParams({
-            client_id,
-            client_secret,
-            redirect_uri: this.getRedirectUrl(),
-            grant_type: 'authorization_code',
-            code, 
-        });
+		const tokenQuery = new URLSearchParams({
+			client_id,
+			client_secret,
+			code,
+			redirect_uri: this.getRedirectUrl(),
+			grant_type: 'authorization_code'
+		})
 
-        const tokenRequest = await fetch(this.options.access_url, {
-            method: 'POST',
-            body: tokenQuery.toString(),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                Accept: 'application/json',
-            },
-        });
+		const tokensRequest = await fetch(this.options.access_url, {
+			method: 'POST',
+			body: tokenQuery,
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				Accept: 'application/json'
+			}
+		})
 
-        if (!tokenRequest.ok) {
-            throw new BadRequestException(`Can't get data for user from ${this.options.profile_url}. Please check token access.`);
-        }
+		if (!tokensRequest.ok) {
+			throw new BadRequestException(
+				`Не удалось получить пользователя с ${this.options.profile_url}. Проверьте правильность токена доступа.`
+			)
+		}
 
-        const tokenResponse = await tokenRequest.json();
+		const tokens = await tokensRequest.json()
 
-        if (!tokenResponse.access_token) {
-            throw new BadRequestException(`No tokens received from ${this.options.profile_url}. Please check if this code is valid.`);
-        }
+		if (!tokens.access_token) {
+			throw new BadRequestException(
+				`Нет токенов с ${this.options.access_url}. Убедитесь, что код авторизации действителен.`
+			)
+		}
 
-        const userRequest = await fetch(this.options.profile_url, {
-            headers: {
-                Authorization: `Bearer ${tokenResponse.access_token}`,
-            },
-        });
+		const userRequest = await fetch(this.options.profile_url, {
+			headers: {
+				Authorization: `Bearer ${tokens.access_token}`
+			}
+		})
 
-        if (!userRequest.ok) {
-            throw new UnauthorizedException(`Can't get user from ${this.options.profile_url}. Check access token.`);
-        }
+		if (!userRequest.ok) {
+			throw new UnauthorizedException(
+				`Не удалось получить пользователя с ${this.options.profile_url}. Проверьте правильность токена доступа.`
+			)
+		}
 
-        const user = await userRequest.json();
-        const userData = await this.extractUserInfo(user);
+		const user = await userRequest.json()
+		const userData = await this.extractUserInfo(user)
 
-        return {
-            ...userData,
-            access_token: tokenResponse.access_token,
-            refresh_token: tokenResponse.refresh_token,
-            expires_at: tokenResponse.expires_at || tokenResponse.expires_in,
-            provider: this.options.name,
-        };
-    }
+		return {
+			...userData,
+			access_token: tokens.access_token,
+			refresh_token: tokens.refresh_token,
+			expires_at: tokens.expires_at || tokens.expires_in,
+			provider: this.options.name
+		}
+	}
 
-    getRedirectUrl(): string {
-        return `${this.BASE_URL}/auth/oauth/callback/${this.options.name}`;
-    }
+	public getRedirectUrl() {
+		return `${this.BASE_URL}/auth/oauth/callback/${this.options.name}`
+	}
 
-    set baseUrl(value: string) {
-        this.BASE_URL = value;
-    }
+	set baseUrl(value: string) {
+		this.BASE_URL = value
+	}
 
-    get name() {
-        return this.options.name;
-    }
+	get name() {
+		return this.options.name
+	}
 
-    get accessUrl() {
-        return this.options.access_url;
-    }
+	get access_url() {
+		return this.options.access_url
+	}
 
-    get profileUrl() {
-        return this.options.profile_url;
-    }
+	get profile_url() {
+		return this.options.profile_url
+	}
 
-    get scopes() {
-        return this.options.scopes;
-    }
+	get scopes() {
+		return this.options.scopes
+	}
 }

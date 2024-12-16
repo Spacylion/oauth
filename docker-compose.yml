@@ -1,25 +1,15 @@
 services:
-<<<<<<< HEAD
-=======
-
->>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
   db:
     container_name: postgres
     image: postgres:15.2
     restart: always
-<<<<<<< HEAD
     env_file:
       - ./development.env
-=======
->>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-<<<<<<< HEAD
     command: postgres -c log_statement=all -c log_directory=/var/log/postgresql -c logging_collector=on
-=======
->>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
     ports:
       - "5433:5432"
     volumes:
@@ -33,15 +23,11 @@ services:
     restart: always
     ports:
       - "6379:6379"
-<<<<<<< HEAD
     env_file:
-      - ./development.env
+      - ./.env.development
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: redis-server --requirepass "${REDIS_PASSWORD}" --loglevel debug
-=======
-    command: redis-server --requirepass ${REDIS_PASSWORD}
->>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
     volumes:
       - redis_data:/data
     networks:
@@ -52,8 +38,4 @@ volumes:
   redis_data:
 
 networks:
-<<<<<<< HEAD
   backend:
-=======
-  backend:
->>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)

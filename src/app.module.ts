@@ -5,16 +5,16 @@ import { configuration } from '@/config/configuration'
 import { validationSchema } from '@/config/validation'
 
 import { AuthModule } from './auth/auth.module'
+import { ProviderModule } from './auth/provider/provider.module'
 import { LoggerModule } from './logger/logger.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module'
-import { ProviderModule } from './auth/provider/provider.module';
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			envFilePath: `${process.cwd()}/${process.env.NODE_ENV}.env`,
+			envFilePath: `${process.cwd()}/.env.${process.env.NODE_ENV}`,
 			load: [configuration],
 			validationSchema
 		}),
@@ -30,7 +30,7 @@ import { ProviderModule } from './auth/provider/provider.module';
 export class AppModule {
 	constructor() {
 		if (process.env.NODE_ENV === 'development') {
-			console.log('Running in development mode. Skipping certain checks.');
+			console.log('Running in development mode. Skipping certain checks.')
 		}
 	}
 }

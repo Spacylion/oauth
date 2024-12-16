@@ -18,6 +18,7 @@ import { LoginDto } from './dto/login.dto'
 import { ProviderService } from './provider/provider.service'
 
 import AuthMethod = $Enums.AuthMethod
+import { EmailConfirmationService } from './email-confirmation/email-confirmation.service'
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,9 @@ export class AuthService {
 		private readonly userService: UserService,
 		private readonly logger: LoggerService,
 		private readonly configService: ConfigService,
-		private readonly providerService: ProviderService
+		private readonly providerService: ProviderService,
+		private readonly emailConfirmationService: EmailConfirmationService,
+
 	) {}
 
 	async register(req: Request, dto: RegisterDto) {
@@ -44,7 +47,12 @@ export class AuthService {
 			false
 		)
 
-		return this.saveSession(req, newUser)
+		await this.emailConfirmationService.sendVerificationToken(newUser.email)
+
+		return {
+			message:
+				'Вы успешно зарегистрировались. Пожалуйста, подтвердите ваш email. Сообщение было отправлено на ваш почтовый адрес.'
+		}
 	}
 
 	async login(req: Request, dto: LoginDto) {
@@ -60,6 +68,16 @@ export class AuthService {
 				`Invalid password check or restore password`
 			)
 		}
+
+		if (!user.isVerified) {
+			await this.emailConfirmationService.sendVerificationToken(
+				user.email
+			)
+			throw new UnauthorizedException(
+				'Ваш email не подтвержден. Пожалуйста, проверьте вашу почту и подтвердите адрес.'
+			)
+		}
+		
 		return this.saveSession(req, user)
 	}
 
@@ -131,7 +149,7 @@ export class AuthService {
 		})
 	}
 
-	private async saveSession(req: Request, user: User) {
+	async saveSession(req: Request, user: User) {
 		return new Promise((resolve, reject) => {
 			req.session.userId = user.id
 

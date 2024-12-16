@@ -24,6 +24,10 @@ export interface Config {
 	REDIS_HOST: string
 	REDIS_PORT: number
 	REDIS_URI: string
+	MAIL_HOST: string
+	MAIL_PORT: string
+	MAIL_LOGIN: string
+	MAIL_PASSWORD: string
 	GOOGLE_RECAPTCHA_SECRET_KEY: string
 	GOOGLE_CLIENT_ID: string
 	GOOGLE_CLIENT_SECRET: string
@@ -84,6 +88,12 @@ export const validationSchema = Joi.object<Config>({
 			return value
 		})
 		.required(),
+
+	MAIL_HOST: Joi.string().required(),
+	MAIL_PORT: Joi.string().required(),
+	MAIL_LOGIN: Joi.string().required(),
+	MAIL_PASSWORD: Joi.string().required(),
+
 	GOOGLE_RECAPTCHA_SECRET_KEY: Joi.string().required(),
 	GOOGLE_CLIENT_ID: Joi.string().required(),
 	GOOGLE_CLIENT_SECRET: Joi.string().required(),

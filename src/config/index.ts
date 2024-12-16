@@ -5,7 +5,7 @@ export const configuration = () => ({
 	ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN,
 
 	COOKIES_SECRET: process.env.COOKIES_SECRET,
-
+ 
 	SESSION_SECRET: process.env.SESSION_SECRET,
 	SESSION_NAME: process.env.SESSION_NAME,
 	SESSION_DOMAIN: process.env.SESSION_DOMAIN,
@@ -26,6 +26,12 @@ export const configuration = () => ({
 	REDIS_HOST: process.env.REDIS_HOST,
 	REDIS_PORT: parseInt(process.env.REDIS_PORT, 10),
 	REDIS_URI: process.env.REDIS_URI,
+
+	MAIL_HOST: process.env.MAIL_HOST,
+	MAIL_PORT: process.env.MAIL_PORT,
+	MAIL_LOGIN: process.env.MAIL_LOGIN,
+	MAIL_PASSWORD: process.env.MAIL_PASSWORD,
+
 
 	GOOGLE_RECAPTCHA_SECRET_KEY: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
 

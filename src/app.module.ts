@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-
-import { configuration } from '@/config/configuration'
+import { configuration } from '@/config/index'
 import { validationSchema } from '@/config/validation'
 
 import { AuthModule } from './auth/auth.module'
@@ -9,6 +8,7 @@ import { ProviderModule } from './auth/provider/provider.module'
 import { LoggerModule } from './logger/logger.module'
 import { PrismaModule } from './prisma/prisma.module'
 import { UserModule } from './user/user.module'
+import { MailModule } from './libs/mail/mail.module';
 
 @Module({
 	imports: [
@@ -22,7 +22,8 @@ import { UserModule } from './user/user.module'
 		PrismaModule,
 		AuthModule,
 		UserModule,
-		ProviderModule
+		ProviderModule,
+		MailModule
 	],
 	controllers: [],
 	providers: []

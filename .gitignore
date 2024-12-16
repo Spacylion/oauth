@@ -3,7 +3,10 @@
 /node_modules
 /build
 
+<<<<<<< HEAD
 /non-bll-scripts
+=======
+>>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
 # Logs
 logs
 *.log
@@ -37,12 +40,23 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # dotenv environment variable files
+<<<<<<< HEAD
 **/*.env.*
 !src/config/env/≈.env.development
 !src/config/env/≈.env.production
 .env
 .env.development
 .env.production
+=======
+<<<<<<< HEAD
+**/*.env
+!src/config/env/development.env
+=======
+.env
+.env.development
+.env.production
+>>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
+>>>>>>> 5b7d63f (fix: sync)
 
 # temp directory
 .temp

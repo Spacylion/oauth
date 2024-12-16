@@ -3,6 +3,7 @@ services:
     container_name: postgres
     image: postgres:15.2
     restart: always
+
     env_file:
       - ./.env.development
     environment:

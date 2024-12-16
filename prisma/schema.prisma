@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+<<<<<<< HEAD
   url      = env("POSTGRES_URI")
 }
 
@@ -66,4 +67,7 @@ enum TokenType {
   VERIFICATION
   TWO_FACTOR
   PASSWORD_REESET
+=======
+  url      = env("DATABASE_URL")
+>>>>>>> 08bc9a4 (feat: docker compose, db, prettier, ts config set up)
 }

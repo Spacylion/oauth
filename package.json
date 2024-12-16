@@ -40,13 +40,11 @@
     "cookie-parser": "^1.4.6",
     "express-session": "^1.18.0",
     "ioredis": "^5.4.1",
-    "joi": "^17.13.3",
     "prisma": "^6.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1",
-    "winston-daily-rotate-file": "^5.0.0"
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "prisma": "^6.0.1",

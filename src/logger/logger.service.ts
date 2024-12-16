@@ -4,7 +4,7 @@ import { Injectable, Logger } from '@nestjs/common'
 export class LoggerService {
 	private readonly logger = new Logger(LoggerService.name)
 	log(message: string) {
-		this.logger.log(message) // Log without additional context
+		this.logger.log(message)
 	}
 
 	error(message: string) {

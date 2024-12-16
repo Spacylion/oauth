@@ -25,6 +25,10 @@ export interface Config {
 	REDIS_PORT: number
 	REDIS_URI: string
 	GOOGLE_RECAPTCHA_SECRET_KEY: string
+	GOOGLE_CLIENT_ID: string
+	GOOGLE_CLIENT_SECRET: string
+	YANDEX_CLIENT_ID: string
+	YANDEX_CLIENT_SECRET: string
 }
 
 export const validationSchema = Joi.object<Config>({
@@ -80,5 +84,9 @@ export const validationSchema = Joi.object<Config>({
 			return value
 		})
 		.required(),
-	GOOGLE_RECAPTCHA_SECRET_KEY: Joi.string().required()
+	GOOGLE_RECAPTCHA_SECRET_KEY: Joi.string().required(),
+	GOOGLE_CLIENT_ID: Joi.string().required(),
+	GOOGLE_CLIENT_SECRET: Joi.string().required(),
+	YANDEX_CLIENT_ID: Joi.string().required(),
+	YANDEX_CLIENT_SECRET: Joi.string().required()
 })
